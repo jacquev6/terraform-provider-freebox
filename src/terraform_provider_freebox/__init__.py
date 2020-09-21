@@ -72,9 +72,110 @@ class ConnectionStatusDataSource(Pyrraform.DataSource):
         block=Pyrraform.schema.Block(
             version=0,
             attributes=[
+                # https://dev.freebox.fr/sdk/os/connection/#ConnectionStatus
+                Pyrraform.schema.Attribute(
+                    name="state",
+                    type=Pyrraform.String,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="type",
+                    type=Pyrraform.String,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="media",
+                    type=Pyrraform.String,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
                 Pyrraform.schema.Attribute(
                     name="ipv4",
                     type=Pyrraform.String,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+
+                Pyrraform.schema.Attribute(
+                    name="ipv6",
+                    type=Pyrraform.String,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="rate_up",
+                    type=Pyrraform.Number,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="rate_down",
+                    type=Pyrraform.Number,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="bandwidth_up",
+                    type=Pyrraform.Number,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="bandwidth_down",
+                    type=Pyrraform.Number,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="bytes_up",
+                    type=Pyrraform.Number,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="bytes_down",
+                    type=Pyrraform.Number,
+                    description="",
+                    required=False,
+                    optional=False,
+                    computed=True,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="ipv4_port_range",
+                    type=Pyrraform.List(Pyrraform.Number),
                     description="",
                     required=False,
                     optional=False,
@@ -92,7 +193,21 @@ class ConnectionStatusDataSource(Pyrraform.DataSource):
         # (We still have to logout from the Freebox to avoid leaking sessions, so this
         # requires a way in Pyrraform to free resources allocated by the provider)
         with Freebox(app_id="infrastructure", app_token=self.provider.config["token"]) as freebox:
-            return dict(ipv4=freebox.get("connection/")["ipv4"])
+            data = freebox.get("connection/")
+            return dict(
+                state=data["state"],
+                type=data["type"],
+                media=data["media"],
+                ipv4=data["ipv4"],
+                ipv6=data["ipv6"],
+                rate_up=data["rate_up"],
+                rate_down=data["rate_down"],
+                bandwidth_up=data["bandwidth_up"],
+                bandwidth_down=data["bandwidth_down"],
+                bytes_up=data["bytes_up"],
+                bytes_down=data["bytes_down"],
+                ipv4_port_range=data["ipv4_port_range"],
+            )
 
 
 class FreeboxProvider(Pyrraform.Provider):

@@ -8,6 +8,10 @@ provider freebox {
 
 data freebox_connection_status connection_status {}
 
-output wan_ip_address {
+output connection_ipv4 {
     value = data.freebox_connection_status.connection_status.ipv4
+}
+
+output connection_ipv4_port_range {
+    value = data.freebox_connection_status.connection_status.ipv4_port_range
 }
