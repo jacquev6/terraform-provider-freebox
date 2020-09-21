@@ -1,9 +1,10 @@
-variable "freebox_token" {
+variable "freebox_app_token" {
   type = string
 }
 
 provider freebox {
-    token = var.freebox_token
+    app_id = "infrastructure"
+    app_token = var.freebox_app_token
 }
 
 data freebox_connection_status connection_status {}

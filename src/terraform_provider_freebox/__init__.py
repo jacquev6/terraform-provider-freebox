@@ -192,7 +192,10 @@ class ConnectionStatusDataSource(Pyrraform.DataSource):
         # (Create a single Freebox instance in FreeboxProvider.__init__)
         # (We still have to logout from the Freebox to avoid leaking sessions, so this
         # requires a way in Pyrraform to free resources allocated by the provider)
-        with Freebox(app_id="infrastructure", app_token=self.provider.config["token"]) as freebox:
+        with Freebox(
+                app_id=self.provider.config["app_id"],
+                app_token=self.provider.config["app_token"],
+        ) as freebox:
             data = freebox.get("connection/")
             return dict(
                 state=data["state"],
@@ -217,7 +220,16 @@ class FreeboxProvider(Pyrraform.Provider):
             version=0,
             attributes=[
                 Pyrraform.schema.Attribute(
-                    name="token",
+                    name="app_id",
+                    type=Pyrraform.String,
+                    description="",
+                    required=True,
+                    optional=False,
+                    computed=False,
+                    sensitive=False,
+                ),
+                Pyrraform.schema.Attribute(
+                    name="app_token",
                     type=Pyrraform.String,
                     description="",
                     required=True,
