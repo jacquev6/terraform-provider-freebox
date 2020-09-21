@@ -1,2 +1,4 @@
 /.terraform/
 /terraform.tfstate
+/freebox_token.auto.tfvars
+/terraform-provider-freebox.log
