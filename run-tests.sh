@@ -3,13 +3,42 @@
 set -o errexit
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-docker build .. --file Dockerfile
+do_create_token=false
+while [[ "$#" -gt 0 ]]
+do
+  case $1 in
+    --create-token)
+      do_create_token=true
+      ;;
+    *)
+      echo "Unknown parameter passed: $1"
+      exit 1;;
+  esac
+  shift
+done
+
+# docker build .. --file Dockerfile
 image_id=$(docker build --quiet .. --file Dockerfile)
 
 rm -rf \
   test-resources/terraform.tfstate \
   test-resources/.terraform \
   test-resources/terraform-provider-freebox.log
+
+if $do_create_token
+then
+  docker run \
+    --env DEBUG_TERRAFORM_PROVIDER_FREEBOX=true \
+    --volume $PWD/test-resources:/terraform-resources \
+    --workdir /terraform-resources \
+    $image_id \
+    terraform-provider-freebox create-token \
+      --app-id terraform-provider-freebox-tests \
+      --app-name "Tests for terraform-provider-freebox" \
+      --app-version "dev" \
+      --device-name $(hostname)
+  read -p "Press 'Enter' when done"
+fi
 
 docker run \
   --env DEBUG_TERRAFORM_PROVIDER_FREEBOX=true \

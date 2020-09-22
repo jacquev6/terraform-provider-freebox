@@ -3,7 +3,7 @@ variable "freebox_app_token" {
 }
 
 provider freebox {
-    app_id = "infrastructure"
+    app_id = "terraform-provider-freebox-tests"
     app_token = var.freebox_app_token
 }
 
