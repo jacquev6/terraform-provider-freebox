@@ -56,7 +56,6 @@ configuration files. It should look like::
     provider freebox {
         app_id = "terraform"
         app_token = "9m2KFLflttfuk1h52aiQvna@LWwk%02qPN4Ah3euZpT7YjP!lekb1MmfWR9qL50r"
-        ...
     }
 
 You are responsible for keeping this token safe.
@@ -71,3 +70,32 @@ Permissions setup
 @todo Motivate why permissions have to be added manually.
 @todo Describe how to add permissions.
 @todo List what permissions must be added for each datasource and resource.
+
+First test: get your public IP address
+--------------------------------------
+
+Add the following to your Terraform configuration::
+
+    data freebox_connection_status connection_status {}
+
+    output connection_ipv4 {
+        value = data.freebox_connection_status.connection_status.ipv4
+    }
+
+Then run `terraform init` and `terraform plan`.
+The later should display something like::
+
+    Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+    Outputs:
+
+    connection_ipv4 = 82.65.16.120
+
+
+Data sources
+============
+
+`freebox_connection_status`
+---------------------------
+
+Calls GET /api/v4/connection/ and returns attributes described in `ConnectionStatus <https://dev.freebox.fr/sdk/os/connection/#>`_.
