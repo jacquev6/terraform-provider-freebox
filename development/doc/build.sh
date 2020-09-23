@@ -7,8 +7,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 image_id=$(
   docker build \
     --quiet \
-    ../.. \
-    --file Dockerfile \
+    .
 )
 
 cd ../..

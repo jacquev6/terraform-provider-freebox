@@ -5,5 +5,5 @@ RUN pip install \
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-COPY development/doc/entrypoint.sh /
+COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
