@@ -13,7 +13,8 @@ This provider uses the same API to let you configure your Freebox using Terrafor
 
 It's licensed under the `MIT license <http://choosealicense.com/licenses/mit/>`_.
 It's available on the `Python package index <http://pypi.python.org/pypi/terraform-provider-freebox>`_.
-Its `documentation and source code <https://github.com/jacquev6/terraform-provider-freebox>`_ are on GitHub.
+Its `documentation <http://jacquev6.github.io/terraform-provider-freebox>`_
+and its `source code <https://github.com/jacquev6/terraform-provider-freebox>`_ are on GitHub.
 
 Questions? Remarks? Bugs? Want to contribute? `Open an issue <https://github.com/jacquev6/terraform-provider-freebox/issues>`_!
 
