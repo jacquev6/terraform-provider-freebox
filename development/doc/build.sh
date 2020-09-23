@@ -12,8 +12,13 @@ image_id=$(
 
 cd ../..
 
+rm -rf docs
+
 docker run \
   --rm \
   --volume $PWD:/project \
   --workdir /project \
-  $image_id
+  $image_id \
+  python setup.py build_sphinx
+
+cp -r build/sphinx/html docs
