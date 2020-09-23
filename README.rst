@@ -1,3 +1,5 @@
+**WARNING, this project is in an early stage; you should probably not use it yet.**
+
 *terraform-provider-freebox* is a `Terraform <https://www.terraform.io/>`_ (0.12)
 `provider <https://www.terraform.io/docs/glossary.html#terraform-provider>`_
 for configuring `Freeboxes <https://en.wikipedia.org/wiki/Freebox>`_
