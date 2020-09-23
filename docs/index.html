@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>terraform-provider-freebox &#8212; terraform-provider-freebox  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="terraform-provider-freebox">
+<h1>terraform-provider-freebox<a class="headerlink" href="#terraform-provider-freebox" title="Permalink to this headline">¶</a></h1>
+<p><em>terraform-provider-freebox</em> is a <a class="reference external" href="https://www.terraform.io/">Terraform</a> (0.12)
+<a class="reference external" href="https://www.terraform.io/docs/glossary.html#terraform-provider">provider</a>
+for configuring <a class="reference external" href="https://en.wikipedia.org/wiki/Freebox">Freeboxes</a>
+(the xDSL/FTTH modems provided by the French ISP <a class="reference external" href="https://free.fr">Free</a>).</p>
+<p>This modem provides a <a class="reference external" href="http://mafreebox.freebox.fr/">configuration GUI</a> for NAT configuration, port forwarding, static DHCP leases, etc.
+and a <a class="reference external" href="https://dev.freebox.fr/sdk/os/#">configuration API</a> with the same capabilities. (The GUI uses the API).</p>
+<p>This provider uses the same API to let you configure your Freebox using Terraform’s <a class="reference external" href="https://en.wikipedia.org/wiki/Infrastructure_as_code">IaC</a> approach.</p>
+<p>It’s licensed under the <a class="reference external" href="http://choosealicense.com/licenses/mit/">MIT license</a>.
+It’s available on the <a class="reference external" href="http://pypi.python.org/pypi/terraform-provider-freebox">Python package index</a>.
+Its <a class="reference external" href="https://github.com/jacquev6/terraform-provider-freebox">documentation and source code</a> are on GitHub.</p>
+<p>Questions? Remarks? Bugs? Want to contribute? <a class="reference external" href="https://github.com/jacquev6/terraform-provider-freebox/issues">Open an issue</a>!</p>
+<a class="reference external image-reference" href="https://github.com/jacquev6/terraform-provider-freebox/actions?query=workflow%3A%22Continuous+Integration%22"><img alt="https://img.shields.io/github/workflow/status/jacquev6/terraform-provider-freebox/Continuous%20Integration?label=CI&amp;logo=github" src="https://img.shields.io/github/workflow/status/jacquev6/terraform-provider-freebox/Continuous%20Integration?label=CI&amp;logo=github" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/terraform-provider-freebox/"><img alt="PyPI" src="https://img.shields.io/pypi/v/terraform-provider-freebox?logo=pypi" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/terraform-provider-freebox/"><img alt="PyPI" src="https://img.shields.io/pypi/pyversions/terraform-provider-freebox?logo=pypi" /></a>
+<div class="section" id="quick-start">
+<h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>Install from PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install terraform-provider-freebox
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>The configuration API provided by the Freebox uses a <em>token</em> for authentication.</p>
+<p>You first need to obtain a token (you’ll have to do that only once).
+Run the following command and follow its instructions.
+You’ll have to click on your Freebox’ touch display.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ terraform-provider-freebox create-token
+</pre></div>
+</div>
+<p>After creating the token, it will give you a <cite>provider</cite> section to copy-paste in your Terraform
+configuration files. It should look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">provider</span> <span class="n">freebox</span> <span class="p">{</span>
+    <span class="n">app_id</span> <span class="o">=</span> <span class="s2">&quot;terraform&quot;</span>
+    <span class="n">app_token</span> <span class="o">=</span> <span class="s2">&quot;9m2KFLflttfuk1h52aiQvna@LWwk%02qPN4Ah3euZpT7YjP!lekb1MmfWR9qL50r&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You are responsible for keeping this token safe.
+If you lose it, you’ll have to create a new one.</p>
+<p>You are responsible for keeping this token secret.
+Ill-intentioned people might use it to hack your network and devices.</p>
+</div>
+<div class="section" id="permissions-setup">
+<h3>Permissions setup<a class="headerlink" href="#permissions-setup" title="Permalink to this headline">¶</a></h3>
+<p>&#64;todo Motivate why permissions have to be added manually.
+&#64;todo Describe how to add permissions.
+&#64;todo List what permissions must be added for each datasource and resource.</p>
+</div>
+<div class="section" id="first-test-get-your-public-ip-address">
+<h3>First test: get your public IP address<a class="headerlink" href="#first-test-get-your-public-ip-address" title="Permalink to this headline">¶</a></h3>
+<p>Add the following to your Terraform configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="n">freebox_connection_status</span> <span class="n">connection_status</span> <span class="p">{}</span>
+
+<span class="n">output</span> <span class="n">connection_ipv4</span> <span class="p">{</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">freebox_connection_status</span><span class="o">.</span><span class="n">connection_status</span><span class="o">.</span><span class="n">ipv4</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then run <code class="code docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">init</span></code> and <code class="code docutils literal notranslate"><span class="pre">terraform</span> <span class="pre">plan</span></code>.
+The later should display something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+connection_ipv4 = 82.65.16.120
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="data-sources">
+<h2>Data sources<a class="headerlink" href="#data-sources" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="freebox-connection-status">
+<h3><code class="code docutils literal notranslate"><span class="pre">freebox_connection_status</span></code><a class="headerlink" href="#freebox-connection-status" title="Permalink to this headline">¶</a></h3>
+<p>Calls <code class="code docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/v4/connection/</span></code> and returns attributes described in <a class="reference external" href="https://dev.freebox.fr/sdk/os/connection/#">ConnectionStatus</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">terraform-provider-freebox</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jacquev6&repo=terraform-provider-freebox&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020 <a href="http://vincent-jacques.net/">Vincent Jacques</a><script src="https://jacquev6.net/ribbon.2.js" data-project="terraform-provider-freebox"></script>.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

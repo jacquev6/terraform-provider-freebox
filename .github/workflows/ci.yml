@@ -1,0 +1,11 @@
+name: Continuous Integration
+on: push
+jobs:
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          development/doc/build.sh
+          git diff --exit-code --stat docs

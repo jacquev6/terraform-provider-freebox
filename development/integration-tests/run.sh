@@ -17,7 +17,12 @@ do
   shift
 done
 
-image_id=$(docker build --quiet ../../.. --file Dockerfile)
+image_id=$(
+  docker build \
+    --quiet \
+    ../../.. \
+    --file Dockerfile
+)
 
 rm -rf \
   resources/terraform.tfstate \
@@ -27,6 +32,7 @@ rm -rf \
 if $do_create_token
 then
   docker run \
+    --rm \
     --env DEBUG_TERRAFORM_PROVIDER_FREEBOX=true \
     --volume $PWD/resources:/terraform-resources \
     --workdir /terraform-resources \
@@ -40,6 +46,7 @@ then
 fi
 
 docker run \
+  --rm \
   --env DEBUG_TERRAFORM_PROVIDER_FREEBOX=true \
   --volume $PWD/resources:/terraform-resources \
   --workdir /terraform-resources \
