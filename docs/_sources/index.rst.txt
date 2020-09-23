@@ -2,4 +2,4 @@
 terraform-provider-freebox
 ==========================
 
-.. include:: ../README.rst
+.. include:: ../../README.rst
