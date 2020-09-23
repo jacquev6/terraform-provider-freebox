@@ -17,19 +17,18 @@ do
   shift
 done
 
-# docker build .. --file Dockerfile
-image_id=$(docker build --quiet .. --file Dockerfile)
+image_id=$(docker build --quiet ../../.. --file Dockerfile)
 
 rm -rf \
-  test-resources/terraform.tfstate \
-  test-resources/.terraform \
-  test-resources/terraform-provider-freebox.log
+  resources/terraform.tfstate \
+  resources/.terraform \
+  resources/terraform-provider-freebox.log
 
 if $do_create_token
 then
   docker run \
     --env DEBUG_TERRAFORM_PROVIDER_FREEBOX=true \
-    --volume $PWD/test-resources:/terraform-resources \
+    --volume $PWD/resources:/terraform-resources \
     --workdir /terraform-resources \
     $image_id \
     terraform-provider-freebox create-token \
@@ -42,7 +41,7 @@ fi
 
 docker run \
   --env DEBUG_TERRAFORM_PROVIDER_FREEBOX=true \
-  --volume $PWD/test-resources:/terraform-resources \
+  --volume $PWD/resources:/terraform-resources \
   --workdir /terraform-resources \
   $image_id \
   bash -c "terraform providers && echo && terraform init && echo && terraform apply"
