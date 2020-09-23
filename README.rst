@@ -82,7 +82,7 @@ Add the following to your Terraform configuration::
         value = data.freebox_connection_status.connection_status.ipv4
     }
 
-Then run `terraform init` and `terraform plan`.
+Then run :code:`terraform init` and :code:`terraform plan`.
 The later should display something like::
 
     Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
@@ -95,7 +95,7 @@ The later should display something like::
 Data sources
 ============
 
-`freebox_connection_status`
----------------------------
+:code:`freebox_connection_status`
+---------------------------------
 
-Calls GET /api/v4/connection/ and returns attributes described in `ConnectionStatus <https://dev.freebox.fr/sdk/os/connection/#>`_.
+Calls :code:`GET /api/v4/connection/` and returns attributes described in `ConnectionStatus <https://dev.freebox.fr/sdk/os/connection/#>`_.
