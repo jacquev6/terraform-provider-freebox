@@ -9,3 +9,22 @@ jobs:
       - run: |
           development/doc/build.sh
           git diff --exit-code --stat docs
+  publish:
+    name: Publish
+    if: startsWith(github.event.ref, 'refs/tags')
+    needs:
+      - docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - run: python setup.py sdist
+      - run: test ${{ github.event.ref }} == refs/tags/$(grep ^version setup.py | cut -d '"' -f 2)
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          # [PyPI API token](https://pypi.org/manage/account/#api-tokens) set as a [secret](https://github.com/jacquev6/Pyrraform/settings/secrets)
+          password: ${{ secrets.pypi_password }}
